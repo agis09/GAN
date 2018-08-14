@@ -59,15 +59,22 @@ class DCGAN():
 
         model = Sequential()
 
-        model.add(Dense(128 * 64 * 64, activation="relu", input_shape=noise_shape))
-        model.add(Reshape((64, 64, 128)))
+        model.add(Dense(256 * 32 * 32, activation="relu", input_shape=noise_shape))
+        model.add(Reshape((32, 32, 256)))
         model.add(BatchNormalization(momentum=0.8))
-        model.add(UpSampling2D())
-        model.add(Conv2D(128, kernel_size=3, padding="same"))
+        # model.add(UpSampling2D())
+        # model.add(Conv2D(256, kernel_size=3, padding="same"))
+        model.add(Conv2DTranspose(256,kernel_size=4, strides=(2, 2) ,padding="same"))
         model.add(Activation("relu"))
         model.add(BatchNormalization(momentum=0.8))
-        model.add(UpSampling2D())
-        model.add(Conv2D(64, kernel_size=3, padding="same"))
+        # model.add(UpSampling2D())
+        # model.add(Conv2D(128, kernel_size=3, padding="same"))
+        model.add(Conv2DTranspose(128,kernel_size=4, strides=(2, 2) ,padding="same"))
+        model.add(Activation("relu"))
+        model.add(BatchNormalization(momentum=0.8))
+        # model.add(UpSampling2D())
+        # model.add(Conv2D(64, kernel_size=3, padding="same"))
+        model.add(Conv2DTranspose(64, kernel_size=4, strides=(2,2),padding="same"))
         model.add(Activation("relu"))
         model.add(BatchNormalization(momentum=0.8))
         model.add(Conv2D(4, kernel_size=3, padding="same"))
@@ -254,5 +261,5 @@ class DCGAN():
 dcgan = DCGAN()
 r, c = 5, 5
 check_noise = np.random.uniform(-1, 1, (r * c, 100))
-dcgan.train(iterations=100000, batch_size=32, save_interval=1000, model_interval=5000,
+dcgan.train(iterations=200000, batch_size=32, save_interval=1000, model_interval=5000,
             check_noise=check_noise, r=r, c=c)
