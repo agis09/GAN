@@ -25,7 +25,7 @@ config = tf.ConfigProto(gpu_options=tf.GPUOptions(allow_growth=True))
 session = tf.Session(config=config)
 tensorflow_backend.set_session(session)
 
-root_dir = "./resized/"
+root_dir = "/home/dmitri/PycharmProjects/GAN/illust_make/resized/"
 
 
 class DCGAN():
