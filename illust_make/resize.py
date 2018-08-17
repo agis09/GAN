@@ -3,6 +3,10 @@ import glob
 from PIL import Image,ImageFilter,ImageDraw,ImageOps
 from tqdm import tqdm
 import warnings
+from PIL import ImageFile
+
+
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 files_jpeg = glob.glob('/home/dmitri/PycharmProjects/GAN/illust_make/solo+standing+1girl/*.jpeg')
 files_png = glob.glob('/home/dmitri/PycharmProjects/GAN/illust_make/solo+standing+1girl/*.png')
