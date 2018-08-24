@@ -13,7 +13,7 @@ SUMMARY_DIR = 'summary'
 # Data Preprocessing and augmentation parameters
 INPUT_SHAPE = (512, 512, 3)  # size of random crops used for training
 FLIP = True  # applies random horizontal and vertical flips
-ROTATE = True  # applies random rotations
+ROTATE = False  # applies random rotations
 PREPROCESS = 'min-max'  # can be 'min-max' or 'standard'
 
 # Adam optimizer parameters:
