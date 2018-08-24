@@ -76,8 +76,11 @@ class ImageLoader(object):
         new_img = np.copy(img)
         if np.random.uniform() > 0.5:
             new_img = cv2.flip(new_img, 1)
+        ### Not vertical flips
+        """
         if np.random.uniform() > 0.5:
             new_img = cv2.flip(new_img, 0)
+        """
         return new_img
 
     def random_rotate(self, img):
