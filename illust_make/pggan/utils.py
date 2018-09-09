@@ -10,6 +10,11 @@ import cv2
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 
+from PIL import Image,ImageFilter,ImageDraw,ImageOps
+
+import matplotlib.pyplot as plt
+
+import random
 
 class ImageLoader(object):
     def __init__(self, cfg):
@@ -44,8 +49,14 @@ class ImageLoader(object):
             new_img = self.random_crop(image)
             if self.cfg['flip']:
                 new_img = self.random_flip(new_img)
+
+
+
             if self.cfg['rotate']:
                 new_img = self.random_rotate(new_img)
+
+
+
             return (new_img - self.img_mean) / self.img_stddev
         else:
             # Pick predefined crops in testing mode
@@ -65,11 +76,27 @@ class ImageLoader(object):
         """
         img_h, img_w, _ = img.shape
         new_h, new_w, _ = self.cfg['input_shape']
+        """
         img = np.pad(img, [(0, max(0, new_h - img_h)), (0, max(0, new_w - img_w)), (0,0)], mode='mean')
         top = np.random.randint(0, max(0, img_h - new_h)+1)
         left = np.random.randint(0, max(0, img_w - new_w)+1)
         new_img = img[top:top + new_h, left:left + new_w, :]
-        return new_img
+        """
+
+
+
+        img.thumbnail((new_h, new_w), Image.ANTIALIAS)
+
+        new_img = Image.new("RGBA", [new_w, new_h], (0, 0, 0, 0))
+        new_img.paste(img, ((new_w - img.size[0]) // 2, (new_h - img.size[1]) // 2))
+        new_img_r = ImageOps.mirror(new_img)
+
+        rnd = random.randrange(2)
+
+        if rnd %2 ==0 :
+            return new_img
+        else:
+            return new_img_r
 
     def random_flip(self, img):
         """Random horizontal and vertical flips"""
@@ -155,7 +182,7 @@ class ImageLoader(object):
         single_image.set_shape([nH, nW, n])
 
         angs = tf.to_float(tf.random_uniform([1], 0, 4, tf.int32)) * np.pi / 2
-        single_image = tf.contrib.image.rotate(single_image, angs[0])
+        # single_image = tf.contrib.image.rotate(single_image, angs[0])
         single_image = tf.image.random_flip_left_right(single_image)
 
         single_image = (tf.to_float(single_image) - self.img_mean) / self.img_stddev
