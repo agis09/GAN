@@ -7,6 +7,7 @@ import losses
 import time
 from utils import ImageLoader
 from tqdm import tqdm
+import matplotlib.pyplot as plt
 
 
 class Model(object):
@@ -180,7 +181,7 @@ class Model(object):
             global_step = 0
             sum_g_loss, sum_d_loss = 0., 0.
             # batch_gen = image_loader.batch_generator()
-
+            # print(self.cfg['n_iters'])
             for i in tqdm(range(self.cfg['n_iters'])):
                 batch_z = np.random.normal(0, 1, size=(batch_size, z_dim))
                 feed_dict = {self.tf_placeholders['z']: batch_z,
@@ -219,11 +220,21 @@ class Model(object):
                     print("Saving model in {}".format(save_dir))
                     saver.save(sess, save_dir, global_step)
                     if self.cfg['save_images']:
-                        gen_images = self.generate_images(save_tag, alpha=alpha)
-                        plt.figure(figsize=(10, 10))
-                        grid = image_loader.grid_batch_images(gen_images)
+                        gen_images = self.generate_images(save_tag, alpha=alpha).astype(np.uint8)
+                        # print(gen_images.shape)
+                        row=4
+                        clm=4
+                        fig, axs = plt.subplots(row, clm)
+                        cnt = 0
+                        for i in range(row):
+                            for j in range(clm):
+                                axs[i, j].imshow(gen_images[cnt, :, :, :])
+                                axs[i, j].axis('off')
+                                cnt += 1
+
                         filename = os.path.join(img_save_dir, str(global_step) + '.png')
-                        plt.imsave(filename, grid)
+                        fig.savefig(filename)
+                        plt.close()
             print("Saving model in {}".format(save_dir))
             saver.save(sess, save_dir, global_step)
 
@@ -234,7 +245,7 @@ class Model(object):
 
     def generate_images(self, model, batch_z=None, alpha=0.):
         """Runs generator to generate images"""
-        batch_size = 64  # self.cfg.batch_size
+        batch_size = 16  # self.cfg.batch_size
         z_dim = self.cfg['z_dim']
         if batch_z is None:
             batch_z = np.random.normal(0, 1, size=(batch_size, z_dim))
@@ -249,6 +260,7 @@ class Model(object):
             self.load(sess, saver, model)
             gen_images = sess.run(gen, feed_dict=feed_dict)
             gen_images = image_loader.postprocess_image(gen_images)
+            print(gen_images.shape)
             return gen_images
 
     def load(self, sess, saver, tag=None):
