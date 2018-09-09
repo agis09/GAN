@@ -1,7 +1,7 @@
 
 # Training/validation parameters
 TRAIN = True  # set to True for training + validation and False for testing
-N_ITERS = 5000  # number of iterations to train
+N_ITERS = 25000  # number of iterations to train
 BATCH_SIZE = 64  # batch size for training
 DISPLAY_PERIOD = 5  # Interval to display loss
 SAVE_PERIOD = 1  # Interval to save model
