@@ -9,12 +9,13 @@ from config import cfg
 from net import DCGAN
 import tensorflow as tf
 
+
 cfg['beta1'] = 0.
 cfg['beta2'] = 0.99
-cfg['batch_size'] = 16
+cfg['batch_size'] = 8
 cfg['save_period'] = 1000
 cfg['display_period'] = 100
-cfg['n_iters'] = 20000
+cfg['n_iters'] = 100000
 cfg['n_critic'] = 1
 cfg['learning_rate'] = 0.001
 cfg['norm_g'] = 'pixel_norm'
@@ -32,31 +33,86 @@ cfg['load_model'] = None
 model = DCGAN(cfg)
 model.train()
 
-cfg.resolution = 16
-cfg.transition = True
-cfg.load_model = None
+cfg['resolution'] = 16
+cfg['transition'] = True
+cfg['load_model'] = None
 
+tf.reset_default_graph()
 model = DCGAN(cfg)
 model.train()
 
-cfg.resolution = 16
-cfg.transition = False
-cfg.load_model = '16x16_transition'
+cfg['resolution'] = 16
+cfg['transition'] = False
+cfg['load_model'] = '16x16_transition'
 
+tf.reset_default_graph()
 model = DCGAN(cfg)
 model.train()
 
-cfg.resolution = 32
-cfg.transition = True
-cfg.load_model = None
+cfg['resolution'] = 32
+cfg['transition'] = True
+cfg['load_model'] = None
 
+tf.reset_default_graph()
 model = DCGAN(cfg)
 model.train()
 
-cfg.resolution = 32
-cfg.transition = False
-cfg.load_model = '32x32_transition'
+cfg['resolution'] = 32
+cfg['transition'] = False
+cfg['load_model'] = '32x32_transition'
 
+tf.reset_default_graph()
 model = DCGAN(cfg)
 model.train()
 
+
+cfg['resolution'] = 64
+cfg['transition'] = True
+cfg['load_model'] = None
+
+tf.reset_default_graph()
+model = DCGAN(cfg)
+model.train()
+
+cfg['resolution'] = 64
+cfg['transition'] = False
+cfg['load_model'] = '64x64_transition'
+
+tf.reset_default_graph()
+model = DCGAN(cfg)
+model.train()
+
+
+cfg['resolution'] = 128
+cfg['transition'] = True
+cfg['load_model'] = None
+
+tf.reset_default_graph()
+model = DCGAN(cfg)
+model.train()
+
+cfg['resolution'] = 128
+cfg['transition'] = False
+cfg['load_model'] = '128x128_transition'
+
+tf.reset_default_graph()
+model = DCGAN(cfg)
+model.train()
+
+
+
+cfg['resolution'] = 256
+cfg['transition'] = True
+cfg['load_model'] = None
+
+tf.reset_default_graph()
+model = DCGAN(cfg)
+model.train()
+
+cfg['resolution'] = 256
+cfg['transition'] = False
+cfg['load_model'] = '256x256_transition'
+
+tf.reset_default_graph()
+model = DCGAN(cfg)
+model.train()
