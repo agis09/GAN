@@ -131,6 +131,8 @@ class Model(object):
         save_period = self.cfg['save_period']
         image_loader = self.image_loader
         transition = self.cfg['transition']
+
+        batch_z = np.random.normal(0, 1, size=(batch_size, z_dim))
         # paths for save directories
         save_tag = '{0:}x{0:}'.format(self.cfg['resolution'])
         if transition:
@@ -220,7 +222,7 @@ class Model(object):
                     print("Saving model in {}".format(save_dir))
                     saver.save(sess, save_dir, global_step)
                     if self.cfg['save_images']:
-                        gen_images = self.generate_images(save_tag, alpha=alpha).astype(np.uint8)
+                        gen_images = self.generate_images(save_tag,batch_z=batch_z, alpha=alpha).astype(np.uint8)
                         # print(gen_images.shape)
                         row=4
                         clm=4
