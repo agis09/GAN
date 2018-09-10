@@ -47,6 +47,7 @@ class ImageLoader(object):
         image = np.copy(img)
         if self.cfg['train']:
             new_img = self.random_crop(image)
+            """
             if self.cfg['flip']:
                 new_img = self.random_flip(new_img)
 
@@ -55,7 +56,7 @@ class ImageLoader(object):
             if self.cfg['rotate']:
                 new_img = self.random_rotate(new_img)
 
-
+            """
 
             return (new_img - self.img_mean) / self.img_stddev
         else:
@@ -89,13 +90,14 @@ class ImageLoader(object):
 
         new_img = Image.new("RGBA", [new_w, new_h], (0, 0, 0, 0))
         new_img.paste(img, ((new_w - img.size[0]) // 2, (new_h - img.size[1]) // 2))
-        new_img_r = ImageOps.mirror(new_img)
+
 
         rnd = random.randrange(2)
 
-        if rnd %2 ==0 :
+        if rnd == 0 :
             return new_img
         else:
+            new_img_r = ImageOps.mirror(new_img)
             return new_img_r
 
     def random_flip(self, img):
@@ -181,7 +183,7 @@ class ImageLoader(object):
         single_image = tf.random_crop(single_image, [nH, nW, n], seed=123)
         single_image.set_shape([nH, nW, n])
 
-        angs = tf.to_float(tf.random_uniform([1], 0, 4, tf.int32)) * np.pi / 2
+        # angs = tf.to_float(tf.random_uniform([1], 0, 4, tf.int32)) * np.pi / 2
         # single_image = tf.contrib.image.rotate(single_image, angs[0])
         single_image = tf.image.random_flip_left_right(single_image)
 
