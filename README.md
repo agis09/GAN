@@ -11,3 +11,7 @@
 ![](https://github.com/agis09/GAN/blob/master/result/img67.png)
 ![](https://github.com/agis09/GAN/blob/master/result/img76.png)
 ![](https://github.com/agis09/GAN/blob/master/result/img91.png)
+
+![](https://github.com/agis09/GAN/blob/master/result/gif/tmp_1.gif)
+
+##整備中...
